@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 
     public Animator animator { get; set; }
 
+    public GameObject enemySprite;
+
     public EnemyStateMachine StateMachine { get; set; }
     public EnemyMoveState MoveState { get; set; }
     public EnemyAttackState AttackState { get; set; }
@@ -51,6 +53,13 @@ public class Enemy : MonoBehaviour
     public void MoveEnemy(Vector2 velocity)
     {
         rb.velocity = velocity;
+    }
+
+    public void LookAtPoint(Vector3 pos)
+    {
+        Vector3 dir = pos - transform.position;
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        enemySprite.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     public void EndAttack()

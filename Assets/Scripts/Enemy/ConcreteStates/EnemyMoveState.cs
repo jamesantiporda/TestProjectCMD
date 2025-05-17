@@ -6,7 +6,7 @@ public class EnemyMoveState : EnemyState
 {
     private Transform _playerTransform;
     private float _movementSpeed = 1.75f;
-    private float attackRange = 2f;
+    private float attackRange = 1.5f;
 
     public EnemyMoveState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
@@ -35,6 +35,7 @@ public class EnemyMoveState : EnemyState
 
         Vector2 moveDirection = (targetPosition - enemyPosition2D).normalized;
 
+        enemy.LookAtPoint(_playerTransform.position);
         enemy.MoveEnemy(moveDirection * _movementSpeed);
 
         if(Vector2.Distance(targetPosition, enemyPosition2D) <= attackRange)
