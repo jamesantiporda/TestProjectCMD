@@ -11,6 +11,12 @@ public class EnemyDeathState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
+
+        Debug.Log("Death State");
+
+        enemy.MoveEnemy(Vector2.zero);
+
+        enemy.animator.SetTrigger("Death");
     }
 
     public override void ExitState()

@@ -32,6 +32,10 @@ public class PlayerCombat : MonoBehaviour
             if(hit)
             {
                 Debug.Log("hit!");
+
+                Enemy hit_enemy = hit.transform.gameObject.GetComponent<Enemy>();
+
+                hit_enemy.Damage(1);
             }
         }
 

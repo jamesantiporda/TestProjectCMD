@@ -6,11 +6,15 @@ public class Enemy : MonoBehaviour
 {
     public Rigidbody2D rb { get; set; }
 
+    public Animator animator { get; set; }
+
     public EnemyStateMachine StateMachine { get; set; }
     public EnemyMoveState MoveState { get; set; }
     public EnemyAttackState AttackState { get; set; }
     public EnemyHitState HitState { get; set; }
     public EnemyDeathState DeathState { get; set; }
+
+    public int health = 3;
 
     private void Awake()
     {
@@ -28,6 +32,7 @@ public class Enemy : MonoBehaviour
         StateMachine.Initialize(MoveState);
 
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -46,5 +51,27 @@ public class Enemy : MonoBehaviour
     public void MoveEnemy(Vector2 velocity)
     {
         rb.velocity = velocity;
+    }
+
+    public void EndAttack()
+    {
+        StateMachine.ChangeState(MoveState);
+    }
+
+    public void Damage(int val)
+    {
+        if(StateMachine.CurrentEnemyState != DeathState)
+        {
+            health -= val;
+
+            if (health <= 0)
+            {
+                StateMachine.ChangeState(DeathState);
+            }
+            else
+            {
+                StateMachine.ChangeState(HitState);
+            }
+        }    
     }
 }

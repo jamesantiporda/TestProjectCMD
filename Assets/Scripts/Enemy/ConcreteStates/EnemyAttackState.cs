@@ -11,6 +11,12 @@ public class EnemyAttackState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
+
+        Debug.Log("Attack State");
+
+        enemy.MoveEnemy(Vector2.zero);
+
+        enemy.animator.SetTrigger("Attack");
     }
 
     public override void ExitState()

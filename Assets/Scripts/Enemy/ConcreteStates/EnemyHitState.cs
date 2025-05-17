@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHitState : EnemyState
 {
+    private float hitTimer = 0.5f;
+
     public EnemyHitState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
@@ -11,6 +13,14 @@ public class EnemyHitState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
+
+        Debug.Log("Hit State");
+
+        enemy.MoveEnemy(Vector2.zero);
+
+        enemy.animator.SetTrigger("Hit");
+
+        hitTimer = 0.5f;
     }
 
     public override void ExitState()
@@ -21,6 +31,13 @@ public class EnemyHitState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
+        hitTimer -= Time.deltaTime;
+
+        if(hitTimer <= 0)
+        {
+            enemy.StateMachine.ChangeState(enemy.MoveState);
+        }
     }
 
     public override void PhysicsUpdate()
