@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Mouse x: " + playerGameplayInput.LookInput.x + " | Mouse y: " + playerGameplayInput.LookInput.y);
+        //Debug.Log("Mouse x: " + playerGameplayInput.LookInput.x + " | Mouse y: " + playerGameplayInput.LookInput.y);
 
         LookAtMouse();
     }
