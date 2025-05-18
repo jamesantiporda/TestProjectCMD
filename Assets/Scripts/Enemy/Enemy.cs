@@ -105,6 +105,8 @@ public class Enemy : MonoBehaviour
             if(distanceToTarget <= attackDistance)
             {
                 Debug.Log("PLAYER HIT!");
+
+                GameManager.Instance.DamagePlayer(10);
             }
         }
     }
