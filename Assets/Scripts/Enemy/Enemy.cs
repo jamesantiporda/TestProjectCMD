@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject enemySprite;
 
-    private Transform target;
+    protected Transform target;
 
     #region Enemy State Machine Components
     public EnemyStateMachine StateMachine { get; set; }
@@ -20,8 +20,18 @@ public class Enemy : MonoBehaviour
     public EnemyDeathState DeathState { get; set; }
     #endregion
 
+    // Enemy attributes
     public int maxHealth = 3;
     public int health = 3;
+
+    public GameObject shield;
+
+    public int maxShieldHealth = 2;
+    protected int shieldHealth = 2;
+    protected bool shieldActive = true;
+
+    public float movementSpeed = 1.75f;
+    public float attackRange = 1.5f;
 
     // Attack Cone of Vision values
     public float attackDistance = 2f;
@@ -48,6 +58,12 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
         health = maxHealth;
+
+        shieldHealth = maxShieldHealth;
+
+        shieldActive = true;
+
+        animator.SetBool("ShieldActive", shieldActive);
     }
 
     // Update is called once per frame
@@ -80,7 +96,7 @@ public class Enemy : MonoBehaviour
         StateMachine.ChangeState(MoveState);
     }
 
-    public void Damage(int val)
+    public virtual void Damage(int val)
     {
         if(StateMachine.CurrentEnemyState != DeathState)
         {
@@ -107,17 +123,36 @@ public class Enemy : MonoBehaviour
 
             if(distanceToTarget <= attackDistance)
             {
-                Debug.Log("PLAYER HIT!");
+                //Debug.Log("PLAYER HIT!");
 
                 GameManager.Instance.DamagePlayer(10);
             }
         }
     }
 
-    public void ResetEnemy()
+    public virtual void ResetEnemy()
     {
         StateMachine.ChangeState(MoveState);
 
         health = maxHealth;
+    }
+
+    public void ActivateShield()
+    {
+        shieldActive = true;
+
+        animator.SetBool("ShieldActive", shieldActive);
+    }
+
+    public void DeactivateShield()
+    {
+        shieldActive = false;
+
+        animator.SetBool("ShieldActive", shieldActive);
+    }
+
+    public bool ReturnIsShieldActive()
+    {
+        return shieldActive;
     }
 }
