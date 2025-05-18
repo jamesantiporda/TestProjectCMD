@@ -53,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 anim.SetTrigger("Die");
                 isDead = true;
-                GameManager.Instance.GameOver();
+                GameManager.Instance.onPlayerDeath.OnNext(true);
             }
             else
             {

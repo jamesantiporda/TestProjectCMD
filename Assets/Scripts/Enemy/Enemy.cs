@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     public EnemyDeathState DeathState { get; set; }
     #endregion
 
+    public int maxHealth = 3;
     public int health = 3;
 
     // Attack Cone of Vision values
@@ -39,12 +40,14 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StateMachine.Initialize(MoveState);
-
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+        StateMachine.Initialize(MoveState);
+
         target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -109,5 +112,12 @@ public class Enemy : MonoBehaviour
                 GameManager.Instance.DamagePlayer(10);
             }
         }
+    }
+
+    public void ResetEnemy()
+    {
+        StateMachine.ChangeState(MoveState);
+
+        health = maxHealth;
     }
 }

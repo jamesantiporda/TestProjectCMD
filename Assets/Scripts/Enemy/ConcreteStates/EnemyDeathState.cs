@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyDeathState : EnemyState
 {
+    private float deathTimer = 0.0f;
+    private float deathTime = 0.5f;
+
     public EnemyDeathState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
@@ -13,6 +16,8 @@ public class EnemyDeathState : EnemyState
         base.EnterState();
 
         Debug.Log("Death State");
+
+        deathTimer = 0.0f;
 
         enemy.MoveEnemy(Vector2.zero);
 
@@ -29,6 +34,14 @@ public class EnemyDeathState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
+        deathTimer += Time.deltaTime;
+
+        if(deathTimer >= deathTime)
+        {
+            enemy.ResetEnemy();
+            enemy.gameObject.SetActive(false);
+        }
     }
 
     public override void PhysicsUpdate()
