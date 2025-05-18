@@ -11,6 +11,9 @@ public class PlayerHealth : MonoBehaviour
 
     private float iFrameTimer;
     private bool invincible;
+    private bool isDead;
+
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,9 @@ public class PlayerHealth : MonoBehaviour
 
         iFrameTimer = 0.0f;
         invincible = false;
+        isDead = false;
+
+        anim = GetComponent<Animator>();
 
         GameManager.Instance.onPlayerDamaged.Subscribe(damage => SubtractHealth(damage)).AddTo(this);
     }
@@ -39,12 +45,28 @@ public class PlayerHealth : MonoBehaviour
 
     public void SubtractHealth(int amount)
     {
-        if(!invincible)
+        if(!invincible && !isDead)
         {
             health -= amount;
 
-            invincible = true;
-            iFrameTimer = iFrameTime;
+            if(health <= 0)
+            {
+                anim.SetTrigger("Die");
+                isDead = true;
+                GameManager.Instance.GameOver();
+            }
+            else
+            {
+                anim.SetTrigger("Hit");
+
+                invincible = true;
+                iFrameTimer = iFrameTime;
+            }
         }
+    }
+
+    public bool ReturnIsDead()
+    {
+        return isDead;
     }
 }

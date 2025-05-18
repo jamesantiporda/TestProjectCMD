@@ -17,6 +17,8 @@ public class EnemyDeathState : EnemyState
         enemy.MoveEnemy(Vector2.zero);
 
         enemy.animator.SetTrigger("Death");
+
+        GameManager.Instance.onEnemyDeath.OnNext(1);
     }
 
     public override void ExitState()
