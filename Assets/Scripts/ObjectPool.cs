@@ -7,9 +7,15 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool Instance;
 
     private List<GameObject> pooledBasicEnemies = new List<GameObject>();
+    private List<GameObject> pooledShieldEnemies = new List<GameObject>();
+    private List<GameObject> pooledBossEnemies = new List<GameObject>();
     private int amountToPool = 1000;
+    private int amountOfShieldToPool = 500;
+    private int amountOfBossToPool = 10;
 
     [SerializeField] private GameObject basicEnemyPrefab;
+    [SerializeField] private GameObject shieldEnemyPrefab;
+    [SerializeField] private GameObject bossEnemyPrefab;
 
     private void Awake()
     {
@@ -28,6 +34,20 @@ public class ObjectPool : MonoBehaviour
             enemy.SetActive(false);
             pooledBasicEnemies.Add(enemy);
         }
+
+        for (int i = 0; i < amountOfShieldToPool; i++)
+        {
+            GameObject enemy = Instantiate(shieldEnemyPrefab);
+            enemy.SetActive(false);
+            pooledShieldEnemies.Add(enemy);
+        }
+
+        for (int i = 0; i < amountOfBossToPool; i++)
+        {
+            GameObject enemy = Instantiate(bossEnemyPrefab);
+            enemy.SetActive(false);
+            pooledBossEnemies.Add(enemy);
+        }
     }
 
     public GameObject GetPooledEnemy(int enemyType)
@@ -44,11 +64,23 @@ public class ObjectPool : MonoBehaviour
         }
         else if(enemyType == 1)
         {
-            
+            for (int i = 0; i < pooledShieldEnemies.Count; i++)
+            {
+                if (!pooledShieldEnemies[i].gameObject.activeInHierarchy)
+                {
+                    return pooledShieldEnemies[i];
+                }
+            }
         }
         else if(enemyType == 2)
         {
-
+            for (int i = 0; i < pooledBossEnemies.Count; i++)
+            {
+                if (!pooledBossEnemies[i].gameObject.activeInHierarchy)
+                {
+                    return pooledBossEnemies[i];
+                }
+            }
         }
 
         return null;

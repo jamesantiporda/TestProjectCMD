@@ -23,6 +23,14 @@ public class GameManager : MonoBehaviour
     private float spawnTimer;
     public float spawnTime = 5.0f;
 
+    public float shieldSpawnStart = 10f;
+    private float shieldSpawnTimer;
+    public float shieldSpawnTime = 5.0f;
+
+    public float bossSpawnStart = 20f;
+    private float bossSpawnTimer;
+    public float bossSpawnTime = 10f;
+
     private void Awake()
     {
         Instance = this;
@@ -47,8 +55,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // SPAWN TIMERS
         timeElapsed += Time.deltaTime;
         spawnTimer += Time.deltaTime;
+        
+        if(timeElapsed >= shieldSpawnStart)
+        {
+            shieldSpawnTimer += Time.deltaTime;
+        }
+
+        if(timeElapsed >= bossSpawnStart)
+        {
+            bossSpawnTimer += Time.deltaTime;
+        }
 
         if(spawnTimer > spawnTime)
         {
@@ -58,9 +77,30 @@ public class GameManager : MonoBehaviour
             SpawnEnemy(0);
         }
 
+        if(shieldSpawnTimer > shieldSpawnTime)
+        {
+            shieldSpawnTimer = 0.0f;
+
+            // SPAWN SHIELD ENEMY
+            SpawnEnemy(1);
+        }
+
+        if(bossSpawnTimer > bossSpawnTime)
+        {
+            bossSpawnTimer = 0.0f;
+
+            // SPAWN BOSS ENEMY
+            SpawnEnemy(2);
+        }
+
         if(spawnTime > 0.1f)
         {
             spawnTime -= Time.deltaTime / 100;
+        }
+
+        if(shieldSpawnTime > 0.1f)
+        {
+            shieldSpawnTime -= Time.deltaTime / 100;
         }
     }
 

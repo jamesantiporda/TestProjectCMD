@@ -10,10 +10,19 @@ public class ShieldEnemy : Enemy
 
         shieldActive = true;
 
-        shield.SetActive(true);
 
         health = maxHealth;
         shieldHealth = maxShieldHealth;
+
+        shield.SetActive(true);
+        animator.SetBool("ShieldActive", true);
+    }
+
+    private void Update()
+    {
+        StateMachine.CurrentEnemyState.FrameUpdate();
+
+        animator.SetBool("ShieldActive", shieldActive);
     }
 
     public override void Damage(int val)

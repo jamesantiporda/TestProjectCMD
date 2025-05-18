@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     // Enemy attributes
     public int maxHealth = 3;
     public int health = 3;
+    public int damage = 10;
 
     public GameObject shield;
 
@@ -125,7 +126,7 @@ public class Enemy : MonoBehaviour
             {
                 //Debug.Log("PLAYER HIT!");
 
-                GameManager.Instance.DamagePlayer(10);
+                GameManager.Instance.DamagePlayer(damage);
             }
         }
     }
