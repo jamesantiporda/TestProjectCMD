@@ -10,13 +10,21 @@ public class Enemy : MonoBehaviour
 
     public GameObject enemySprite;
 
+    private Transform target;
+
+    #region Enemy State Machine Components
     public EnemyStateMachine StateMachine { get; set; }
     public EnemyMoveState MoveState { get; set; }
     public EnemyAttackState AttackState { get; set; }
     public EnemyHitState HitState { get; set; }
     public EnemyDeathState DeathState { get; set; }
+    #endregion
 
     public int health = 3;
+
+    // Attack Cone of Vision values
+    public float attackDistance = 2f;
+    public float attackAngle = 20f;
 
     private void Awake()
     {
@@ -35,6 +43,8 @@ public class Enemy : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -82,5 +92,20 @@ public class Enemy : MonoBehaviour
                 StateMachine.ChangeState(HitState);
             }
         }    
+    }
+
+    public void CheckHitSuccess()
+    {
+        Vector2 directionToTarget = (target.position - transform.position).normalized;
+
+        if(Vector2.Angle(enemySprite.transform.right, directionToTarget) < attackAngle / 2)
+        {
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+            if(distanceToTarget <= attackDistance)
+            {
+                Debug.Log("PLAYER HIT!");
+            }
+        }
     }
 }

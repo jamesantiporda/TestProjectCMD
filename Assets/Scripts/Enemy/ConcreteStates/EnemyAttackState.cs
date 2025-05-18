@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState
 {
+    private Transform _playerTransform;
+
     public EnemyAttackState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
+        _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override void EnterState()
