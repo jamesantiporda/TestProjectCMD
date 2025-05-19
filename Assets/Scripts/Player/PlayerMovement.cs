@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     public float moveSpeed = 1.0f;
+    public float rotationSpeed = 1.0f;
 
     private Vector2 _moveDirection;
 
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Debug.Log("Mouse x: " + playerGameplayInput.LookInput.x + " | Mouse y: " + playerGameplayInput.LookInput.y);
 
-        LookAtMouse();
+        LookAtTarget(new Vector3(playerGameplayInput.LookInput.x, playerGameplayInput.LookInput.y, 0.0f));
     }
 
     private void FixedUpdate()
@@ -41,6 +42,17 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 dir = new Vector3(playerGameplayInput.LookInput.x, playerGameplayInput.LookInput.y, 0.0f) - Camera.main.WorldToScreenPoint(transform.position);
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
         playerSprite.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    private void LookAtTarget(Vector3 targetPos)
+    {
+        Vector3 dir = new Vector3(targetPos.x, targetPos.y, 0.0f) - Camera.main.WorldToScreenPoint(transform.position);
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        playerSprite.transform.rotation = Quaternion.Lerp(playerSprite.transform.rotation, rot, Time.deltaTime * rotationSpeed);
     }
 }

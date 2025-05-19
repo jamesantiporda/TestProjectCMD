@@ -202,6 +202,7 @@ MonoBehaviour:
   shield: {fileID: 5179576775422652139}
   maxShieldHealth: 3
   movementSpeed: 1.75
+  rotationSpeed: 10
   attackRange: 3
   attackDistance: 4
   attackAngle: 20

@@ -14,7 +14,7 @@ public class EnemyHitState : EnemyState
     {
         base.EnterState();
 
-        Debug.Log("Hit State");
+        //Debug.Log("Hit State");
 
         enemy.MoveEnemy(Vector2.zero);
 

@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
     public PlayerGameplayInput playerGameplayInput;
 
     public float shootingCooldown = 0.3f;
+    public int playerDamage = 1;
     private float cooldownTimer;
 
     public LayerMask enemyLayer;
@@ -32,14 +33,14 @@ public class PlayerCombat : MonoBehaviour
     {
         if(cooldownTimer <= 0f && playerGameplayInput.AttackInput)
         {
-            Debug.Log("Attack!");
+            //Debug.Log("Attack!");
             cooldownTimer = shootingCooldown;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, gun.transform.right, 100f, enemyLayer);
 
             if(hit)
             {
-                Debug.Log("hit!");
+                //Debug.Log("hit!");
 
                 laserEnd.transform.position = hit.point;
 
@@ -47,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
 
                 Enemy hit_enemy = hit.transform.gameObject.GetComponent<Enemy>();
 
-                hit_enemy.Damage(1);
+                hit_enemy.Damage(playerDamage);
             }
             else
             {

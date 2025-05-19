@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     protected bool shieldActive = true;
 
     public float movementSpeed = 1.75f;
+    public float rotationSpeed = 1f;
     public float attackRange = 1.5f;
 
     // Attack Cone of Vision values
@@ -70,8 +71,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(rb.velocity);
-
         StateMachine.CurrentEnemyState.FrameUpdate();
     }
 
@@ -124,11 +123,19 @@ public class Enemy : MonoBehaviour
 
             if(distanceToTarget <= attackDistance)
             {
-                //Debug.Log("PLAYER HIT!");
-
                 GameManager.Instance.DamagePlayer(damage);
             }
         }
+    }
+
+    public void LookAtTarget(Vector3 targetPos)
+    {
+        Vector3 dir = new Vector3(targetPos.x, targetPos.y, 0.0f) - Camera.main.WorldToScreenPoint(transform.position);
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        enemySprite.transform.rotation = Quaternion.Lerp(enemySprite.transform.rotation, rot, Time.deltaTime * rotationSpeed);
     }
 
     public virtual void ResetEnemy()

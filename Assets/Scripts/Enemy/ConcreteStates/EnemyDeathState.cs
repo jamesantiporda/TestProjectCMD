@@ -15,7 +15,7 @@ public class EnemyDeathState : EnemyState
     {
         base.EnterState();
 
-        Debug.Log("Death State");
+        //Debug.Log("Death State");
 
         deathTimer = 0.0f;
 

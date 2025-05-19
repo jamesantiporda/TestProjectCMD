@@ -15,7 +15,7 @@ public class EnemyMoveState : EnemyState
     {
         base.EnterState();
 
-        Debug.Log("Move State");
+        //Debug.Log("Move State");
 
         enemy.animator.SetTrigger("Move");
     }

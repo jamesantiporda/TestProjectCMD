@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public Camera camera;
     public TMP_Text killCounterText;
+    public TMP_Text killCounterText2;
     public GameObject gameOverScreen;
     public TMP_Text clockSeconds;
     public TMP_Text clockMinutes;
@@ -65,7 +66,6 @@ public class GameManager : MonoBehaviour
         onEnemyDeath.Subscribe(death =>
         {
             enemiesKilled += death;
-            Debug.Log("Enemies killed: " + enemiesKilled);
             killCounterText.text = "" + enemiesKilled;
         });
 
@@ -217,5 +217,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.0f;
 
         _uiInput.enabled = true;
+
+        killCounterText2.text = "Enemies killed: " + enemiesKilled;
     }
 }
