@@ -36,12 +36,14 @@ public class PlayerCombat : MonoBehaviour
             //Debug.Log("Attack!");
             cooldownTimer = shootingCooldown;
 
+            // Check if Player attack hits an enemy
             RaycastHit2D hit = Physics2D.Raycast(transform.position, gun.transform.right, 100f, enemyLayer);
 
             if(hit)
             {
                 //Debug.Log("hit!");
 
+                // Set Laser end to point of collision
                 laserEnd.transform.position = hit.point;
 
                 StartCoroutine(LaserFire());
@@ -54,6 +56,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 Vector3 dir = new Vector3(playerGameplayInput.LookInput.x, playerGameplayInput.LookInput.y, 0.0f) - Camera.main.WorldToScreenPoint(transform.position);
 
+                // Set Laser end to a far point in the direction aimed at
                 laserEnd.transform.position = gunTip.transform.position + dir * 100;
 
                 StartCoroutine(LaserFire());
@@ -70,6 +73,7 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator LaserFire()
     {
+        // Turn off laser after 0.1 seconds
         yield return new WaitForSeconds(0.1f);
 
         laserEnd.transform.position = gunTip.transform.position;

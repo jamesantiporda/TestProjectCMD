@@ -16,6 +16,7 @@ public class BossEnemyAttackState : EnemyAttackState
 
         enemy.MoveEnemy(Vector2.zero);
 
+        // Select a random attack and trigger it
         int random_attack = Random.Range(0, 2);
 
         enemy.animator.SetInteger("AttackType", random_attack);

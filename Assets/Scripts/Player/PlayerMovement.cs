@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Movement
         _moveDirection = playerGameplayInput.MovementInput;
 
         _moveDirection = _moveDirection.normalized;
