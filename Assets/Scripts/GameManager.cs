@@ -123,9 +123,7 @@ public class GameManager : MonoBehaviour
     {
         _gameplayInput.enabled = false;
 
-        gameOverScreen.SetActive(true);
-
-        Time.timeScale = 0.0f;
+        StartCoroutine(GameOverSequence());
     }
 
     public void RestartGame()
@@ -163,5 +161,14 @@ public class GameManager : MonoBehaviour
             enemy.transform.position = spawnPos;
             enemy.SetActive(true);
         }
+    }
+
+    private IEnumerator GameOverSequence()
+    {
+        yield return new WaitForSeconds(2);
+
+        gameOverScreen.SetActive(true);
+
+        Time.timeScale = 0.0f;
     }
 }
