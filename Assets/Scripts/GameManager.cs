@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public TMP_Text killCounterText;
     public GameObject gameOverScreen;
+    public TMP_Text clockSeconds;
+    public TMP_Text clockMinutes;
 
     private PlayerGameplayInput _gameplayInput;
     private PlayerUIInput _uiInput;
@@ -28,6 +30,9 @@ public class GameManager : MonoBehaviour
     private float timeElapsed;
     private float spawnTimer;
     public float spawnTime = 5.0f;
+
+    private float seconds = 0;
+    private int minutes = 0;
 
     public float shieldSpawnStart = 10f;
     private float shieldSpawnTimer;
@@ -118,7 +123,34 @@ public class GameManager : MonoBehaviour
             shieldSpawnTime -= Time.deltaTime / 100;
         }
 
-        if(gameOverScreen.activeSelf)
+        // CLOCK TIMER
+        seconds += Time.deltaTime;
+
+        if(seconds >= 60)
+        {
+            seconds = 0;
+            minutes++;
+        }
+
+        if(seconds < 10)
+        {
+            clockSeconds.text = "0" + (int)seconds;
+        }
+        else
+        {
+            clockSeconds.text = "" + (int)seconds;
+        }
+
+        if (minutes < 10)
+        {
+            clockMinutes.text = "0" + minutes;
+        }
+        else
+        {
+            clockMinutes.text = "" + minutes;
+        }
+
+        if (gameOverScreen.activeSelf)
         {
             if(_uiInput.ConfirmInput)
             {
@@ -152,19 +184,19 @@ public class GameManager : MonoBehaviour
 
         if(spawnSide == 0)
         {
-            spawnPos = camera.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 1 + 0.1f, camera.nearClipPlane));
+            spawnPos = camera.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 1 + 0.3f, camera.nearClipPlane));
         }
         else if(spawnSide == 1)
         {
-            spawnPos = camera.ViewportToWorldPoint(new Vector3(1 + 0.1f, Random.Range(0f, 1f), camera.nearClipPlane));
+            spawnPos = camera.ViewportToWorldPoint(new Vector3(1 + 0.3f, Random.Range(0f, 1f), camera.nearClipPlane));
         }
         else if(spawnSide == 2)
         {
-            spawnPos = camera.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 0 - 0.1f, camera.nearClipPlane));
+            spawnPos = camera.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), 0 - 0.3f, camera.nearClipPlane));
         }
         else if (spawnSide == 3)
         {
-            spawnPos = camera.ViewportToWorldPoint(new Vector3(0 - 0.1f, Random.Range(0f, 1f), camera.nearClipPlane));
+            spawnPos = camera.ViewportToWorldPoint(new Vector3(0 - 0.3f, Random.Range(0f, 1f), camera.nearClipPlane));
         }
 
         GameObject enemy = ObjectPool.Instance.GetPooledEnemy(enemyType);

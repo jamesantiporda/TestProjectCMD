@@ -202,9 +202,9 @@ MonoBehaviour:
   shield: {fileID: 5179576775422652139}
   maxShieldHealth: 3
   movementSpeed: 1.75
-  attackRange: 2
-  attackDistance: 2
-  attackAngle: 45
+  attackRange: 3
+  attackDistance: 4
+  attackAngle: 20
 --- !u!95 &6149100062890445585
 Animator:
   serializedVersion: 5
