@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
 
     private PlayerGameplayInput _gameplayInput;
+    private PlayerUIInput _uiInput;
 
     public Subject<int> onPlayerDamaged = new Subject<int>();
     public Subject<int> onEnemyDeath = new Subject<int>();
@@ -49,6 +50,10 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(false);
 
         _gameplayInput = GetComponent<PlayerGameplayInput>();
+        _uiInput = GetComponent<PlayerUIInput>();
+
+        _uiInput.enabled = false;
+
         enemiesKilled = 0;
         timeElapsed = 0.0f;
 
@@ -112,6 +117,14 @@ public class GameManager : MonoBehaviour
         {
             shieldSpawnTime -= Time.deltaTime / 100;
         }
+
+        if(gameOverScreen.activeSelf)
+        {
+            if(_uiInput.ConfirmInput)
+            {
+                RestartGame();
+            }
+        }
     }
 
     public void DamagePlayer(int damage)
@@ -170,5 +183,7 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(true);
 
         Time.timeScale = 0.0f;
+
+        _uiInput.enabled = true;
     }
 }
