@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public HealthBar healthBar;
+
     public int maxHealth = 100;
     public int health;
     public float iFrameTime = 2;
@@ -19,6 +21,8 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+
+        healthBar.SetMaxHealth(maxHealth);
 
         iFrameTimer = 0.0f;
         invincible = false;
@@ -48,6 +52,8 @@ public class PlayerHealth : MonoBehaviour
         if(!invincible && !isDead)
         {
             health -= amount;
+
+            healthBar.SetHealth(health);
 
             if(health <= 0)
             {

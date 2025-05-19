@@ -4,12 +4,17 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     public Camera camera;
+    public TMP_Text killCounterText;
+    public GameObject gameOverScreen;
 
     private PlayerGameplayInput _gameplayInput;
 
@@ -39,6 +44,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1.0f;
+
+        gameOverScreen.SetActive(false);
+
         _gameplayInput = GetComponent<PlayerGameplayInput>();
         enemiesKilled = 0;
         timeElapsed = 0.0f;
@@ -47,6 +56,7 @@ public class GameManager : MonoBehaviour
         {
             enemiesKilled += death;
             Debug.Log("Enemies killed: " + enemiesKilled);
+            killCounterText.text = "" + enemiesKilled;
         });
 
         onPlayerDeath.Subscribe(isDead => GameOver());
@@ -109,9 +119,18 @@ public class GameManager : MonoBehaviour
         onPlayerDamaged.OnNext(damage);
     }
 
-    public void GameOver()
+    private void GameOver()
     {
         _gameplayInput.enabled = false;
+
+        gameOverScreen.SetActive(true);
+
+        Time.timeScale = 0.0f;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void SpawnEnemy(int enemyType)
