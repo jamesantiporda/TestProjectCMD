@@ -12,11 +12,19 @@ public class PlayerCombat : MonoBehaviour
     public LayerMask enemyLayer;
 
     public GameObject gun;
+    public Transform gunTip;
+    public Transform laserEnd;
+
+    private Transform[] points;
+    [SerializeField] private LineController line;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        points = new Transform[2];
+
+        points[0] = gunTip;
+        points[1] = laserEnd;
     }
 
     // Update is called once per frame
@@ -33,9 +41,21 @@ public class PlayerCombat : MonoBehaviour
             {
                 Debug.Log("hit!");
 
+                laserEnd.transform.position = hit.point;
+
+                StartCoroutine(LaserFire());
+
                 Enemy hit_enemy = hit.transform.gameObject.GetComponent<Enemy>();
 
                 hit_enemy.Damage(1);
+            }
+            else
+            {
+                Vector3 dir = new Vector3(playerGameplayInput.LookInput.x, playerGameplayInput.LookInput.y, 0.0f) - Camera.main.WorldToScreenPoint(transform.position);
+
+                laserEnd.transform.position = gunTip.transform.position + dir * 100;
+
+                StartCoroutine(LaserFire());
             }
         }
 
@@ -43,5 +63,14 @@ public class PlayerCombat : MonoBehaviour
         {
             cooldownTimer -= Time.deltaTime;
         }
+
+        line.SetUpLine(points);
+    }
+
+    private IEnumerator LaserFire()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        laserEnd.transform.position = gunTip.transform.position;
     }
 }
